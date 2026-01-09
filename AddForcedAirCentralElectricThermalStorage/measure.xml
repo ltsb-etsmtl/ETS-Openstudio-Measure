@@ -1,0 +1,340 @@
+<?xml version="1.0"?>
+<measure>
+  <schema_version>3.1</schema_version>
+  <name>add_forced_air_central_electric_thermal_storage</name>
+  <uid>7d6f1ff9-2c1b-4f5a-9da0-5004bfea940e</uid>
+  <version_id>6feb0b4e-81cf-42d7-9b5b-ec43d1fe8537</version_id>
+  <version_modified>2025-11-03T13:56:25Z</version_modified>
+  <xml_checksum>CE1B34CF</xml_checksum>
+  <class_name>AddForcedAirCentralElectricThermalStorage</class_name>
+  <display_name>Add Forced Air Central Electric Thermal Storage</display_name>
+  <description>This measures adds a forced-air central Electric Thermal Storage (ETS) device to the current building model.</description>
+  <modeler_description>Code developped M. Mathieu Laroche, M.Sc. Supervised by Mme. Katherine DAvignon, Ph.D &amp; Danielle Monfet, PhD, with the support of M. François Laurencelle, Ph.D.</modeler_description>
+  <arguments>
+    <argument>
+      <name>atc_name</name>
+      <display_name>Enter device name and number</display_name>
+      <description>This is the unique identifier of the device. Use distinct names.</description>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>ETS1</default_value>
+    </argument>
+    <argument>
+      <name>selected_loop</name>
+      <display_name>Select Loop:</display_name>
+      <description>Error: No loops were found</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>selected_furnace</name>
+      <display_name>Select furnace:</display_name>
+      <description>Error: No furnaces were found</description>
+      <type>Choice</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>storage_placement</name>
+      <display_name>Location of storage device:</display_name>
+      <description>This selects where the storage device is mounted</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>Upstream</default_value>
+      <choices>
+        <choice>
+          <value>Upstream</value>
+          <display_name>Upstream</display_name>
+        </choice>
+        <choice>
+          <value>Downstream</value>
+          <display_name>Downstream</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>selected_charging_schedule</name>
+      <display_name>Select Charging Schedule:</display_name>
+      <description>Error: No schedules were found elsewhere in the model</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>selected_discharging_schedule</name>
+      <display_name>Select Discharging Schedule:</display_name>
+      <description>Error: No schedules were found elsewhere in the model</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>selected_pbldgmax_schedule</name>
+      <display_name>Select Maximum Allowable Bldg Elec Demand Schedule:</display_name>
+      <description>Error: No schedules were found elsewhere in the model</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>selected_outletairtemp_schedule</name>
+      <display_name>Select Outlet Air Temperature Setpoint Schedule:</display_name>
+      <description>Error: No schedules were found elsewhere in the model</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>sto_cap</name>
+      <display_name>Enter characterized storage capacitance C [kJ/K]</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>766</default_value>
+    </argument>
+    <argument>
+      <name>ua_eff</name>
+      <display_name>Enter characterized heat loss coefficient UAeff [W/K]:</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>2.937</default_value>
+    </argument>
+    <argument>
+      <name>alpha</name>
+      <display_name>Enter discharge regression slope alpha [kW/K]:</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.125</default_value>
+    </argument>
+    <argument>
+      <name>beta</name>
+      <display_name>Enter discharge regression intercept beta [kW]:</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>2.887</default_value>
+    </argument>
+    <argument>
+      <name>pheat_max</name>
+      <display_name>Enter device maximum discharge rate [kW]:</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>18</default_value>
+    </argument>
+    <argument>
+      <name>pelec_max</name>
+      <display_name>Enter device maximum electrical charging rate [kW]:</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>19.2</default_value>
+    </argument>
+    <argument>
+      <name>initial_temperature</name>
+      <display_name>Enter the Initial Brick Temperature [°C]:</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>400</default_value>
+    </argument>
+    <argument>
+      <name>storage_Temperature_High_Limit</name>
+      <display_name>Enter the Maximum Brick Target Temperature [°C]:</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>648</default_value>
+    </argument>
+    <argument>
+      <name>minimum_Outdoor_Temperature</name>
+      <display_name>Enter the Minimum Outdoor Temperature [°C]:</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-15</default_value>
+    </argument>
+    <argument>
+      <name>storage_Temperature_Low_Limit</name>
+      <display_name>Enter the Minimum Brick Target Temperature [°C]:</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>93</default_value>
+    </argument>
+    <argument>
+      <name>maximum_Outdoor_Temperature</name>
+      <display_name>Enter the Maximum Outdoor Temperature [°C]:</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>15</default_value>
+    </argument>
+    <argument>
+      <name>brick_temp_deadband</name>
+      <display_name>Enter the brick core temperature deadband [±X °C]:</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>vol_flow_rate</name>
+      <display_name>Enter device inlet maximum air volumetric flow rate [m3/s]:</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.8</default_value>
+    </argument>
+    <argument>
+      <name>selected_zone</name>
+      <display_name>Select ambient zone:</display_name>
+      <description>Error: No zones were found</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>report_freq</name>
+      <display_name>Select Reporting Frequency for New Output Variables</display_name>
+      <description>This will not change reporting frequency for existing output variables in the model.</description>
+      <type>Choice</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>Timestep</default_value>
+      <choices>
+        <choice>
+          <value>Detailed</value>
+          <display_name>Detailed</display_name>
+        </choice>
+        <choice>
+          <value>Timestep</value>
+          <display_name>Timestep</display_name>
+        </choice>
+        <choice>
+          <value>Hourly</value>
+          <display_name>Hourly</display_name>
+        </choice>
+        <choice>
+          <value>Daily</value>
+          <display_name>Daily</display_name>
+        </choice>
+        <choice>
+          <value>Monthly</value>
+          <display_name>Monthly</display_name>
+        </choice>
+        <choice>
+          <value>RunPeriod</value>
+          <display_name>RunPeriod</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>internal_variable_availability_dictionary_reporting</name>
+      <display_name>Level of output reporting related to the EMS internal variables that are available.</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>None</default_value>
+      <choices>
+        <choice>
+          <value>None</value>
+          <display_name>None</display_name>
+        </choice>
+        <choice>
+          <value>NotByUniqueKeyNames</value>
+          <display_name>NotByUniqueKeyNames</display_name>
+        </choice>
+        <choice>
+          <value>Verbose</value>
+          <display_name>Verbose</display_name>
+        </choice>
+      </choices>
+    </argument>
+  </arguments>
+  <outputs />
+  <provenances />
+  <tags>
+    <tag>HVAC.Heating</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Measure Language</name>
+      <value>Ruby</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>New Construction EE</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Retrofit EE</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>CD7F5672</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>9246A024</checksum>
+    </file>
+    <file>
+      <filename>README.md.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>readmeerb</usage_type>
+      <checksum>F1C26127</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>3.7.0</identifier>
+        <min_compatible>3.7.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>45544AF7</checksum>
+    </file>
+    <file>
+      <filename>add_forced_air_central_electric_thermal_storage_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>8B0A6AB8</checksum>
+    </file>
+    <file>
+      <filename>example_model.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>53D14E69</checksum>
+    </file>
+  </files>
+</measure>
